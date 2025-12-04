@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from .inference import generate, load_model
 from .schemas import ChatRequest, ChatResponse
+from .model_info import get_model_info
 
 app = FastAPI(title="Bloomed Terminal", version="0.1.0")
 
@@ -11,6 +12,10 @@ def warmup():
 @app.get("/health")
 def health():
     return {"ok": True}
+
+@app.get("/v1/model_info")
+def model_info():
+    return get_model_info()
 
 @app.post("/v1/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
